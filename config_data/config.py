@@ -20,5 +20,5 @@ def load_config(path: str | None = None) -> Config:
 
 
 
-# Добавляем в переменные окружения данные, прочитанные из файла .env
+
 
