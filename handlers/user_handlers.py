@@ -41,18 +41,24 @@ async def process_help_command(message: Message):
 
 @router.message()
 async def answer_convert(message: Message):
+    if command_dict["shoes"] and command_dict["clothes"]:
+        command_dict["clothes"] = False
+        command_dict["shoes"] = False
+        await message.answer(text=LEXICON_RU['error'], reply_markup=kb.as_markup(resize_keyboard=True))
+
     user_mes = int(message.text)
     conversion_output: float = round(cny_to_rub_converter(user_mes), 2)
     if command_dict["clothes"]:
+        command_dict["clothes"] = False
         await message.answer(
             f"Сумма составляет: <b>{round(conversion_output + conversion_output * 0.15 + 700, 4)} RUB</b>\n\n"
             f"❗️<b>ЭТА СУММА С УЧЕТОМ ДОСТАВКИ ДО СПБ И КОМИССИИ</b>❗\n"
             f"️❗️Доствка в регионы происходит по СДЭК❗\n\n"
             f"для оформления пиши менеджеру\n🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽\n\n\n"
-            f"https://t.me/ivnvilyapzn", parse_mode='HTML',)
-        command_dict["clothes"] = False
+            f"https://t.me/ivnvilyapzn", parse_mode='HTML', )
 
     if command_dict["shoes"]:
+        command_dict["shoes"] = False
         await message.answer(
             f"Сумма составляет: <b>{round(conversion_output + conversion_output * 0.15 + 1200, 4)} RUB</b>\n\n"
             f"❗️<b>ЭТА СУММА С УЧЕТОМ ДОСТАВКИ ДО СПБ И КОМИССИИ</b>❗\n"
@@ -61,9 +67,3 @@ async def answer_convert(message: Message):
             f"https://t.me/ivnvilyapzn",
             parse_mode='HTML'
         )
-        command_dict["shoes"] = False
-
-    if command_dict["shoes"] == True and command_dict["clothes"] == True:
-        await message.answer(text=LEXICON_RU['error'], reply_markup=kb.as_markup(resize_keyboard=True))
-        command_dict["clothes"] = False
-        command_dict["shoes"] = False
